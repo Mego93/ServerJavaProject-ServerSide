@@ -1,5 +1,7 @@
 package documents;
 
+import java.util.Timer;
+
 import bibliothèque.Abonne;
 import bibliothèque.Bibliothèque;
 import bibliothèque.Document;
@@ -13,7 +15,7 @@ public abstract class DocumentAbs implements Document {
 	private boolean estDisponible;
 	private boolean estReservé;
 	private Abonne aboReservé;
-	private Abonne aboPossession; //?
+	private Abonne aboPossession; // ?
 
 	public DocumentAbs(int numero, String titre, Bibliothèque bibliothèque) {
 		this.numero = numero;
@@ -30,18 +32,6 @@ public abstract class DocumentAbs implements Document {
 		return numero;
 	}
 
-	public String getTitre() {
-		return titre;
-	}
-
-	public boolean isEstDisponible() {
-		return estDisponible;
-	}
-
-	public boolean isEstReservé() {
-		return estReservé;
-	}
-
 	@Override
 	public synchronized void reserver(Abonne ab) throws EmpruntException {
 		if (!estDisponible)
@@ -49,11 +39,11 @@ public abstract class DocumentAbs implements Document {
 		else if (estReservé)
 			throw new EmpruntException("Le document est déjà reservé");
 		else {
-			// if (bibliothèque.getAbonnés().containsValue(ab)) {
 			this.estReservé = true;
 			this.aboReservé = ab;
-			// }
 
+			Timer time = new Timer();
+			time.schedule(new DocumentAttente(this, time), 20000);
 		}
 
 	}
@@ -62,20 +52,17 @@ public abstract class DocumentAbs implements Document {
 	public synchronized void emprunter(Abonne ab) throws EmpruntException {
 		if (!estDisponible) {
 			throw new EmpruntException("Le document n'est pas disponible");
-		}
-		else {
+		} else {
 			if (this.estReservé) { // Si le document a déjà été reservé
-				if // (bibliothèque.getAbonnés().containsValue(ab)
-				(this.aboReservé.equals(ab)) {
+				if (this.aboReservé.equals(ab)) {
 					this.estDisponible = false;
 					ab.getListeDocs().add(this);
 				} else {
 					throw new EmpruntException("Le document est reservé par un autre abonné");
 				}
-			} else // if (bibliothèque.getAbonnés().containsValue(ab))
-			{ // En cas de non réservation
+			} else { // En cas de non réservation
 				this.estDisponible = false;
-				this.aboPossession=ab;
+				this.aboPossession = ab;
 			}
 
 		}
@@ -91,7 +78,7 @@ public abstract class DocumentAbs implements Document {
 			this.aboReservé = null;
 		}
 		this.estDisponible = true;
-		this.aboPossession=null;
+		this.aboPossession = null;
 	}
 
 }
