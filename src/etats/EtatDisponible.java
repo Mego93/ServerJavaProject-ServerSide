@@ -27,6 +27,6 @@ public class EtatDisponible implements Etat {
 
 	@Override
 	public void retour() throws RetourException {
-		throw new RetourException("");
+		throw new RetourException("Impossible de retourner un document disponible");
 	}
 }

@@ -17,13 +17,13 @@ public class EtatReserve implements Etat {
 
 	@Override
 	public void reserver(Abonne ab) throws EmpruntException {
-		throw new EmpruntException("");
+		throw new EmpruntException("Impossible de reserver un document reservé");
 	}
 
 	@Override
 	public void emprunter(Abonne ab) throws EmpruntException {
 		if (!aboReserve.equals(ab))
-			throw new EmpruntException("");
+			throw new EmpruntException("L'abonné ne correspond pas à la reservation faite");
 		else
 			docReserve.setEtat(new EtatEmprunte(ab, docReserve));
 

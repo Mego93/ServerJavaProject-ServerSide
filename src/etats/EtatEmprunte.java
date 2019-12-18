@@ -16,13 +16,13 @@ public class EtatEmprunte implements Etat {
 
 	@Override
 	public void reserver(Abonne ab) throws EmpruntException {
-		throw new EmpruntException("");
+		throw new EmpruntException("Impossible de reserver un document emprunté");
 
 	}
 
 	@Override
 	public void emprunter(Abonne ab) throws EmpruntException {
-		throw new EmpruntException("");
+		throw new EmpruntException("Impossible d'emprunter un document emprunté");
 
 	}
 
