@@ -22,7 +22,6 @@ private static Bibliothèque bibliothèque;
 	public void run() {
 		String reponse = null;
 		try {
-			//do {
 				
 			 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -35,16 +34,13 @@ private static Bibliothèque bibliothèque;
 					+ noDoc);
 			boolean verification = bibliothèque.getBiblio().containsKey(noDoc);
 			if (verification)
-				// la ressource concurrente est la bibliothèque
-				synchronized (bibliothèque) {
 					try {
 						bibliothèque.getBiblio().get(noDoc).retour();
 						reponse = "Retour réussi";
 						
 					} catch (RetourException e) {
 						reponse = e.toString();
-					}
-				}
+					}			
 			else
 				reponse = "Aucun document ne porte ce numéro";
 			System.out.println(reponse);
@@ -53,31 +49,17 @@ private static Bibliothèque bibliothèque;
 			String repArret = in.readLine();
 			if(repArret.equals("O"))
 				out.println("Arret du service");
-			//}while(arret);
-		} catch (IOException e) {
-			// Fin du service d'inversion
-		}
+			
+		} catch (IOException e) {}
 
 		try {
 			client.close();
-		} catch (IOException e2) {
-		}
+		} catch (IOException e2) {}
 	}
 	
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-	
-
-	public static void setBibliothèque(Bibliothèque bibliothèque) {
-		ServiceRetour.bibliothèque = bibliothèque;
-	}
-
-	@Override
-	public String toString() {
-		return "Reservation du document";
-	}
-
 	public void lancer() {
 		new Thread(this).start();
 		

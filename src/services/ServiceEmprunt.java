@@ -22,8 +22,6 @@ public class ServiceEmprunt implements Runnable {
 	public void run() {
 		String reponse = null;
 		try {
-			// do {
-
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
@@ -40,9 +38,7 @@ public class ServiceEmprunt implements Runnable {
 				reponse = "Aucun abonné ne porte ce numéro";
 			else if (!verification2)
 				reponse = "Aucun document ne porte ce numéro";
-			// la ressource concurrente est la bibliothèque
 			else {
-				synchronized (bibliothèque) {
 					try {
 						bibliothèque.getBiblio().get(noDoc).emprunter(bibliothèque.getAbonnés().get(noAbo));
 						reponse = "Emprunt réussi";
@@ -50,35 +46,23 @@ public class ServiceEmprunt implements Runnable {
 					} catch (EmpruntException e) {
 						reponse = e.toString();
 					}
-				}
+				
 			}
 
 			System.out.println(reponse);
 			out.println(reponse);
 
-		} catch (IOException e) {
-			// Fin du service d'inversion
-		}
+		} catch (IOException e) {}
 
 		try {
 			client.close();
-		} catch (IOException e2) {
-		}
+		} catch (IOException e2) {}
 	}
 
 	protected void finalize() throws Throwable {
 		client.close();
 	}
-
-	public static void setBibliothèque(Bibliothèque bibliothèque) {
-		ServiceEmprunt.bibliothèque = bibliothèque;
-	}
-
-	@Override
-	public String toString() {
-		return "Reservation du document";
-	}
-
+	
 	public void lancer() {
 		new Thread(this).start();
 

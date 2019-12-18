@@ -22,7 +22,6 @@ public class ServiceReservation implements Runnable {
 	public void run() {
 		String reponse = null;
 		try {
-		//	do {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -40,7 +39,7 @@ public class ServiceReservation implements Runnable {
 				reponse = "Aucun abonné ne porte ce numéro";
 			else if (!verification2)
 				reponse = "Aucun document ne porte ce numéro";
-			// la ressource concurrente est la bibliothèque
+			
 			else {
 				synchronized (bibliothèque) {
 					try {
@@ -57,36 +56,18 @@ public class ServiceReservation implements Runnable {
 
 			System.out.println(reponse);
 			out.println(reponse);
-		//	out.println("Voulez vous continuer ? (O/N)");
-		//	String quit = in.readLine();
-		//	if(quit.equals("O"))
-		//		break;
-		//}while(true);
 
-
-		} catch (IOException e) {
-			// Fin du service d'inversion
-		}
+		} catch (IOException e) {}
 
 		try {
 			client.close();
-		} catch (IOException e2) {
-		}
+		} catch (IOException e2) {}
 	}
 
 	protected void finalize() throws Throwable {
 		client.close();
 	}
-
-	public static void setBibliothèque(Bibliothèque bibliothèque) {
-		ServiceReservation.bibliothèque = bibliothèque;
-	}
-
-	@Override
-	public String toString() {
-		return "Reservation du document";
-	}
-
+	
 	public void lancer() {
 		new Thread(this).start();
 
