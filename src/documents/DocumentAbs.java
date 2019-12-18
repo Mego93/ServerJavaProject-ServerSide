@@ -54,4 +54,12 @@ public abstract class DocumentAbs implements Document {
 		return etatDoc;
 	}
 
+	public String getTitre() {
+		return titre;
+	}
+
+	public Bibliothèque getBibliothèque() {
+		return bibliothèque;
+	}
+
 }
