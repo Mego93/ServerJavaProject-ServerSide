@@ -5,6 +5,7 @@ import java.util.Timer;
 import bibliothèque.Abonne;
 import bibliothèque.Bibliothèque;
 import bibliothèque.Document;
+import etats.EtatEmprunte;
 import exception.EmpruntException;
 import exception.RetourException;
 
@@ -16,6 +17,7 @@ public abstract class DocumentAbs implements Document {
 	private boolean estReservé;
 	private Abonne aboReservé;
 	private Abonne aboPossession; // ?
+	private Etat etatDoc;
 
 	public DocumentAbs(int numero, String titre, Bibliothèque bibliothèque) {
 		this.numero = numero;
@@ -79,6 +81,15 @@ public abstract class DocumentAbs implements Document {
 		}
 		this.estDisponible = true;
 		this.aboPossession = null;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etatDoc = etat;
+
+	}
+
+	public Etat getEtat() {
+		return etatDoc;
 	}
 
 }
