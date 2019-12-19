@@ -46,7 +46,6 @@ public class ServiceReservation implements Runnable {
 					try {
 						bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
 						reponse = "Réservation du document "+ noDoc +" par l'abonné "+ noAbo + " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
-						// Thread.currentThread().sleep(1000);
 
 					} catch (EmpruntException e) {
 						reponse = e.toString();
@@ -63,8 +62,7 @@ public class ServiceReservation implements Runnable {
 
 		try {
 			client.close();
-		} catch (IOException e2) {
-		}
+		} catch (IOException e2) {}
 	}
 
 	protected void finalize() throws Throwable {

@@ -41,22 +41,15 @@ public class ServiceRetour implements Runnable {
 				} catch (RetourException e) {
 					reponse = e.toString();
 				}
-			else
-				reponse = "Aucun document ne porte ce numéro";
+
 			System.out.println(reponse);
 			out.println(reponse);
-			out.println("Voulez vous arrêter ? (O/N)");
-			String repArret = in.readLine();
-			if (repArret.equals("O"))
-				out.println("Arret du service");
 
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 
 		try {
 			client.close();
-		} catch (IOException e2) {
-		}
+		} catch (IOException e2) {}
 	}
 
 	protected void finalize() throws Throwable {
