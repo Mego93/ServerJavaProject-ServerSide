@@ -26,6 +26,7 @@ public class ServiceReservation implements Runnable {
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
+			// Ajouter try catch 
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");
@@ -39,7 +40,7 @@ public class ServiceReservation implements Runnable {
 				reponse = "Aucun abonné ne porte ce numéro";
 			else if (!verification2)
 				reponse = "Aucun document ne porte ce numéro";
-			
+
 			else {
 				synchronized (bibliothèque) {
 					try {
@@ -51,23 +52,25 @@ public class ServiceReservation implements Runnable {
 						reponse = e.toString();
 					}
 				}
-				
+
 			}
 
 			System.out.println(reponse);
 			out.println(reponse);
 
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 
 		try {
 			client.close();
-		} catch (IOException e2) {}
+		} catch (IOException e2) {
+		}
 	}
 
 	protected void finalize() throws Throwable {
 		client.close();
 	}
-	
+
 	public void lancer() {
 		new Thread(this).start();
 

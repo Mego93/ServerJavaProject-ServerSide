@@ -25,6 +25,7 @@ public class ServiceEmprunt implements Runnable {
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
+			// Ajouter try catch 
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");

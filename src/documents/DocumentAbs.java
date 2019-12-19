@@ -47,7 +47,6 @@ public abstract class DocumentAbs implements Document {
 
 	public void setEtat(Etat etat) {
 		this.etatDoc = etat;
-
 	}
 
 	public Etat getEtat() {
