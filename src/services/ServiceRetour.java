@@ -25,17 +25,18 @@ public class ServiceRetour implements Runnable {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-			
-			// Ajouter try catch 
+
+			// Ajouter try catch
 			out.println("Le numéro de document à retourner :");
 			int noDoc = Integer.parseInt(in.readLine());
-			
-			System.out.println("Requète de " + this.client.getInetAddress() + " doc n° " + noDoc);
+
+			System.out.println("Requète pour le document n°" + noDoc + " pour un retour (IP:"
+					+ this.client.getInetAddress() + ")");
 			boolean verification = bibliothèque.getBiblio().containsKey(noDoc);
 			if (verification)
 				try {
 					bibliothèque.getBiblio().get(noDoc).retour();
-					reponse = "Retour réussi";
+					reponse = "Retour du document " + noDoc + "réussi, il est de nouveau disponible à la bibliothèque";
 
 				} catch (RetourException e) {
 					reponse = e.toString();

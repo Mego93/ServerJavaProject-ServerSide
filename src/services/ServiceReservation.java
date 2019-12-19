@@ -33,7 +33,7 @@ public class ServiceReservation implements Runnable {
 			int noDoc = Integer.parseInt(in.readLine());
 
 			System.out
-					.println("Requète de " + this.client.getInetAddress() + " abonné n°" + noAbo + " doc n° " + noDoc);
+			.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc + " pour une réservation (IP:"+this.client.getInetAddress()+")");
 			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
 			if (!verification)
@@ -45,7 +45,7 @@ public class ServiceReservation implements Runnable {
 				synchronized (bibliothèque) {
 					try {
 						bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
-						reponse = "Réservation réussie";
+						reponse = "Réservation du document "+ noDoc +" par l'abonné "+ noAbo + " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
 						// Thread.currentThread().sleep(1000);
 
 					} catch (EmpruntException e) {

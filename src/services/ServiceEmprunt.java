@@ -32,7 +32,7 @@ public class ServiceEmprunt implements Runnable {
 			int noDoc = Integer.parseInt(in.readLine());
 
 			System.out
-					.println("Requète de " + this.client.getInetAddress() + " abonné n°" + noAbo + " doc n° " + noDoc);
+					.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc + " pour un emprunt (IP:"+this.client.getInetAddress()+")");
 			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
 			if (!verification)
@@ -42,7 +42,7 @@ public class ServiceEmprunt implements Runnable {
 			else {
 					try {
 						bibliothèque.getBiblio().get(noDoc).emprunter(bibliothèque.getAbonnés().get(noAbo));
-						reponse = "Emprunt réussi";
+						reponse = "Emprunt du document "+ noDoc +" par l'abonné "+ noAbo + " réussi, il n'est plus disponible à la bibliothèque";
 
 					} catch (EmpruntException e) {
 						reponse = e.toString();
