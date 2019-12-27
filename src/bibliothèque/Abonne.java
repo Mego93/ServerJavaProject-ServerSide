@@ -3,10 +3,14 @@ package bibliothèque;
 public class Abonne {
 	private int numero;
 	private String nom;
+	private int age;
+	private boolean estPuni;
 	
-	public Abonne(int numero, String nom) {
+	public Abonne(int numero, String nom,int age) {
 		this.numero = numero;
 		this.nom = nom;
+		this.age = age;
+		this.estPuni = false;
 	}
 
 
@@ -18,6 +22,20 @@ public class Abonne {
 		return nom;
 	}
 
+
+	public int getAge() {
+		return age;
+	}
+	
+	public boolean isPuni() {
+		return estPuni;
+	}
+	
+	public void punission() {
+		this.estPuni= true;
+	}
+
+	
 
 
 	

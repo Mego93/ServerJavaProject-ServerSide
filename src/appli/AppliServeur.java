@@ -21,9 +21,9 @@ public class AppliServeur {
 			Document l3 = new Livre(3,"Pourquoi les gens ?",b);
 			Document l4 = new Livre(4,"Popo, son histoire",b);
 			
-			Abonne a1 = new Abonne(1, "Thierry");
-			Abonne a2 = new Abonne(2, "Brette");
-			Abonne a3 = new Abonne(3, "Ishan");
+			Abonne a1 = new Abonne(1, "Thierry", 18);
+			Abonne a2 = new Abonne(2, "Brette",40);
+			Abonne a3 = new Abonne(3, "Ishan",3);
 			
 			b.getAbonnés().put(a1.getNumero(),a1);
 			b.getAbonnés().put(a2.getNumero(),a2);

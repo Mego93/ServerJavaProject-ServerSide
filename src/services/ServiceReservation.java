@@ -26,14 +26,14 @@ public class ServiceReservation implements Runnable {
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
-			// Ajouter try catch 
+			// Ajouter try catch
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");
 			int noDoc = Integer.parseInt(in.readLine());
 
-			System.out
-			.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc + " pour une réservation (IP:"+this.client.getInetAddress()+")");
+			System.out.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc
+					+ " pour une réservation (IP:" + this.client.getInetAddress() + ")");
 			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
 			if (!verification)
@@ -42,14 +42,14 @@ public class ServiceReservation implements Runnable {
 				reponse = "Aucun document ne porte ce numéro";
 
 			else {
-				synchronized (bibliothèque) {
-					try {
-						bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
-						reponse = "Réservation du document "+ noDoc +" par l'abonné "+ noAbo + " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
 
-					} catch (EmpruntException e) {
-						reponse = e.toString();
-					}
+				try {
+					bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
+					reponse = "Réservation du document " + noDoc + " par l'abonné " + noAbo
+							+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
+
+				} catch (EmpruntException e) {
+					reponse = e.toString();
 				}
 
 			}
@@ -62,7 +62,8 @@ public class ServiceReservation implements Runnable {
 
 		try {
 			client.close();
-		} catch (IOException e2) {}
+		} catch (IOException e2) {
+		}
 	}
 
 	protected void finalize() throws Throwable {
@@ -72,5 +73,14 @@ public class ServiceReservation implements Runnable {
 	public void lancer() {
 		new Thread(this).start();
 
+	}
+
+	public static boolean isParsable(String input) {
+		try {
+			Integer.parseInt(input);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 }

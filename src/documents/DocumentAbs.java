@@ -32,12 +32,13 @@ public abstract class DocumentAbs implements Document {
 		etatDoc.reserver(ab);
 		Timer time = new Timer();
 		time.schedule(new DocumentAttente(this, time), 20000);
-
 	}
 
 	@Override
 	public synchronized void emprunter(Abonne ab) throws EmpruntException {
 		etatDoc.emprunter(ab);
+		Timer time = new Timer();
+		time.schedule(new DocumentEmprunte(ab, time), 2000000);
 	}
 
 	@Override
