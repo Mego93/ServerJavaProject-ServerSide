@@ -11,4 +11,6 @@ public interface Etat {
 	void emprunter(Abonne ab) throws EmpruntException;
 
 	void retour() throws RetourException;
+	
+	String toString();
 }

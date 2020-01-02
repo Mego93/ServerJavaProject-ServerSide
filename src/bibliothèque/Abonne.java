@@ -1,5 +1,7 @@
 package bibliothèque;
 
+import exception.AbonnePuniException;
+
 public class Abonne {
 	private int numero;
 	private String nom;
@@ -31,8 +33,18 @@ public class Abonne {
 		return estPuni;
 	}
 	
-	public void punission() {
+	public void punission() throws AbonnePuniException {
+		if(estPuni)
+			throw new AbonnePuniException("L'abonné est déjà puni");
 		this.estPuni= true;
+	}
+
+
+	public void libérer() throws AbonnePuniException {
+		if(!estPuni)
+			throw new AbonnePuniException("L'abonné n'est pas puni");
+		this.estPuni= false;
+		
 	}
 
 	

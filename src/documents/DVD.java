@@ -26,4 +26,19 @@ public class DVD extends DocumentAbs {
 		super.emprunter(ab);
 	}
 
+	@Override
+	public String toString() {
+		String s = "";
+		s += "Document (DVD) n° " + super.numero() + ", titre : '" + super.getTitre() + "', âge minimum : "+this.ageMini + ", état du document ; ";
+		switch (this.getEtat().toString()) {
+		case ("Reservé"):
+			s += "Reservé\n";
+		case ("Emprunté"):
+			s += "Emprunté\n";
+		case ("Disponible"):
+			s += "Disponible\n";
+		}
+		return s;
+	}
+
 }

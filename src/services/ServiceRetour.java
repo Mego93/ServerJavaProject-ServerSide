@@ -25,6 +25,7 @@ public class ServiceRetour implements Runnable {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+			
 
 			// Ajouter try catch
 			out.println("Le numéro de document à retourner :");
@@ -36,7 +37,7 @@ public class ServiceRetour implements Runnable {
 			if (verification)
 				try {
 					bibliothèque.getBiblio().get(noDoc).retour();
-					reponse = "Retour du document " + noDoc + "réussi, il est de nouveau disponible à la bibliothèque";
+					reponse = "Retour du document " + noDoc + " réussi, il est de nouveau disponible à la bibliothèque";
 
 				} catch (RetourException e) {
 					reponse = e.toString();

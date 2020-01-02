@@ -1,16 +1,17 @@
-package documents;
+package timertasks;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import bibliothèque.Abonne;
+import exception.AbonnePuniException;
 
-public class DocumentEmprunte extends TimerTask{
-	private Timer timer;
+public class Bannissement extends TimerTask{
 	private Abonne abonne;
+	private Timer timer;
 	
-	public DocumentEmprunte( Abonne ab, Timer timer) {
-		this.abonne = ab;
+	public Bannissement(Abonne abonne, Timer timer) {
+		this.abonne = abonne;
 		this.timer = timer;
 	}
 
@@ -19,7 +20,7 @@ public class DocumentEmprunte extends TimerTask{
 		try {
 			this.abonne.punission();
 			this.timer.cancel();
-		} catch (RuntimeException e) {
+		} catch (AbonnePuniException e) {
 			e.printStackTrace();
 		}
 		

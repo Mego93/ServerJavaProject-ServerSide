@@ -1,7 +1,5 @@
 package documents;
 
-import java.util.Timer;
-
 import bibliothèque.Abonne;
 import bibliothèque.Bibliothèque;
 import bibliothèque.Document;
@@ -30,15 +28,11 @@ public abstract class DocumentAbs implements Document {
 	@Override
 	public synchronized void reserver(Abonne ab) throws EmpruntException {
 		etatDoc.reserver(ab);
-		Timer time = new Timer();
-		time.schedule(new DocumentAttente(this, time), 20000);
 	}
 
 	@Override
 	public synchronized void emprunter(Abonne ab) throws EmpruntException {
 		etatDoc.emprunter(ab);
-		Timer time = new Timer();
-		time.schedule(new DocumentEmprunte(ab, time), 2000000);
 	}
 
 	@Override
@@ -56,6 +50,13 @@ public abstract class DocumentAbs implements Document {
 
 	public String getTitre() {
 		return titre;
+	}
+
+	@Override
+	public String toString() {
+		String s = "";
+		s += "Document n° " + numero + ", titre : '" + titre + "', état du document = " + etatDoc.toString() + "\n";
+		return s;
 	}
 
 	public Bibliothèque getBibliothèque() {

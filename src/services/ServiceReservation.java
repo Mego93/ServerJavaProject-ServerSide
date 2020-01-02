@@ -25,8 +25,9 @@ public class ServiceReservation implements Runnable {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-
+			//out.println(bibliothèque.toStringDocs());
 			// Ajouter try catch
+			
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");

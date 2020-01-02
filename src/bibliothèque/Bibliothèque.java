@@ -20,6 +20,22 @@ public class Bibliothèque {
 		return abonnés;
 	}
 	
+	public String toStringAbonnés() {
+		String s = "";	
+		for(int i = 1 ; i<abonnés.size();i++) {
+			s+=abonnés.get(i).toString() + "\n";
+		}
+		return s;
+	}
+	
+	public String toStringDocs() {
+		StringBuilder sb = new StringBuilder();	
+		for(int i = 1 ; i<biblio.size();i++) {
+			sb.append(biblio.get(i).toString());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 	
 	
 }
