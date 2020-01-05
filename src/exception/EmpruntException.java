@@ -1,3 +1,8 @@
+/**
+ * Classe d'exception d'emprunt
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.0
+ */
 package exception;
 
 public class EmpruntException extends Exception {

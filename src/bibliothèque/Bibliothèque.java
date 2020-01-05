@@ -1,3 +1,8 @@
+/**
+ * Classe de la bibliothèque
+ * @author VO Thierry & VYAS Ishan
+ * @version 2.0
+ */
 package bibliothèque;
 
 import java.util.HashMap;
@@ -21,11 +26,12 @@ public class Bibliothèque {
 	}
 	
 	public String toStringAbonnés() {
-		String s = "";	
+		StringBuilder sb = new StringBuilder();	
 		for(int i = 1 ; i<abonnés.size();i++) {
-			s+=abonnés.get(i).toString() + "\n";
+			sb.append(abonnés.get(i).toString());
+			sb.append("\n");
 		}
-		return s;
+		return sb.toString();
 	}
 	
 	public String toStringDocs() {

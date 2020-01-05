@@ -1,3 +1,8 @@
+/**
+ * Interface des états possible d'un document
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.1
+ */
 package documents;
 
 import bibliothèque.Abonne;

@@ -1,3 +1,8 @@
+/**
+ * Interface du document
+ * @author Brette
+ * @version 1.0
+ */
 package bibliothèque;
 
 import exception.EmpruntException;

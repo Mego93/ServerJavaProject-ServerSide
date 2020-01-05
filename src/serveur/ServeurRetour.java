@@ -1,3 +1,8 @@
+/**
+ * Classe permettant le lancement d'un serveur de retour
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.1
+ */
 package serveur;
 
 import java.io.*;
@@ -12,6 +17,7 @@ public class ServeurRetour implements Runnable {
 
 	private ServerSocket ServerSocketRetour;
 	private static Bibliothèque bibliothèque;
+	
 	/**
 	 * Crée un serveur TCP pour le service Reservation
 	 * @throws IOException

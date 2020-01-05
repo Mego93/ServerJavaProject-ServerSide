@@ -1,3 +1,8 @@
+/**
+ * Classe d'exception d'un abonné puni
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.0
+ */
 package exception;
 
 public class AbonnePuniException extends Exception {

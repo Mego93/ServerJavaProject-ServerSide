@@ -1,3 +1,8 @@
+/**
+ * Classe ayant pour service emprunt
+ * @author VO Thierry & VYAS Ishan
+ * @version 3.5
+ */
 package services;
 
 import java.io.BufferedReader;
@@ -17,14 +22,18 @@ public class ServiceEmprunt implements Runnable {
 		client = socket;
 		ServiceEmprunt.bibliothèque = bibliothèque;
 	}
-
+	
+	/**
+	 * Lance la portion de code du thread
+	 */
 	@Override
 	public void run() {
 		String reponse = null;
 		try {
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			// Ajouter try catch 
+			
+			// Demande au client les instructions proposées
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");
@@ -53,16 +62,21 @@ public class ServiceEmprunt implements Runnable {
 			out.println(reponse);
 
 		} catch (IOException e) {}
-
 		try {
 			client.close();
 		} catch (IOException e2) {}
 	}
 
+	/**
+	 * Ferme le client
+	 */
 	protected void finalize() throws Throwable {
 		client.close();
 	}
-	
+
+	/**
+	 * Crée un thread
+	 */
 	public void lancer() {
 		new Thread(this).start();
 

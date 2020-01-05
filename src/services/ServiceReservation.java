@@ -1,3 +1,8 @@
+/**
+ * Classe ayant pour service réservation
+ * @author VO Thierry & VYAS Ishan
+ * @version 3.5
+ */
 package services;
 
 import java.io.BufferedReader;
@@ -17,7 +22,10 @@ public class ServiceReservation implements Runnable {
 		client = socket;
 		ServiceReservation.bibliothèque = bibliothèque;
 	}
-
+	
+	/**
+	 * Lance la portion de code du thread
+	 */
 	@Override
 	public void run() {
 		String reponse = null;
@@ -25,9 +33,8 @@ public class ServiceReservation implements Runnable {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-			//out.println(bibliothèque.toStringDocs());
-			// Ajouter try catch
 			
+			// Demande au client les instructions proposées
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
 			out.println("Le numéro de document à emprunter :");
@@ -67,21 +74,19 @@ public class ServiceReservation implements Runnable {
 		}
 	}
 
+	/**
+	 * Ferme le client
+	 */
 	protected void finalize() throws Throwable {
 		client.close();
 	}
 
+	/**
+	 * Crée un thread
+	 */
 	public void lancer() {
 		new Thread(this).start();
 
 	}
-
-	public static boolean isParsable(String input) {
-		try {
-			Integer.parseInt(input);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
+	
 }

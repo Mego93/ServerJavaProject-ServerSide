@@ -1,3 +1,8 @@
+/**
+ * Classe d'état représentant un état de document réservé
+ * @author VO Thierry & VYAS Ishan
+ * @version 3.0
+ */
 package etats;
 
 import java.util.Date;
@@ -19,12 +24,26 @@ public class EtatReserve implements Etat {
 		this.aboReserve = aboReserve;
 		this.docReserve = docReserve;
 	}
-
+	
+	/**
+	 * Réserve le document (dans ce cas là impossible)
+	 * @param Un abonné
+	 * @throws EmpruntException
+	 */
 	@Override
 	public void reserver(Abonne ab) throws EmpruntException {
 		throw new EmpruntException("Impossible de reserver un document reservé");
 	}
 
+	/**
+	 * Emprunte le document
+	 * Si un abonné ayant réservé ne correspond pas à l'abonné en paramètre
+	 * cela jette une EmpruntException
+	 * Sinon set l'état du Document en un nouvel objet EtatEmprunte
+	 * et lance un TimerTask de bannissement avec un délai donné
+	 * @param Un abonné
+	 * @throws EmpruntException
+	 */
 	@Override
 	public void emprunter(Abonne ab) throws EmpruntException {
 		if (!aboReserve.equals(ab))
@@ -36,7 +55,11 @@ public class EtatReserve implements Etat {
 		}
 
 	}
-
+	
+	/**
+	 * Retourne le document
+	 * @throws RetourException
+	 */
 	@Override
 	public void retour() throws RetourException {
 		docReserve.setEtat(new EtatDisponible(docReserve));

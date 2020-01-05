@@ -1,3 +1,8 @@
+/**
+ * Classe d'application du serveur
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.5
+ */
 package appli;
 
 import java.io.IOException;

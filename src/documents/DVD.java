@@ -1,3 +1,9 @@
+/**
+ * Classe du DVD
+ * Hérite de DocumentAbs
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.5
+ */
 package documents;
 
 import bibliothèque.Abonne;
@@ -12,6 +18,12 @@ public class DVD extends DocumentAbs {
 		this.ageMini = ageMini;
 	}
 	
+	/**
+	 * Réserve le document
+	 * Si l'age de l'abonné est inférieur à l'age requis pour ce DVD
+	 * Jette une EmpruntException
+	 * @throws EmpruntException
+	 */
 	@Override
 	public synchronized void reserver(Abonne ab) throws EmpruntException {
 		if(ab.getAge() < this.ageMini)
@@ -19,6 +31,12 @@ public class DVD extends DocumentAbs {
 		super.reserver(ab);
 	}
 
+	/**
+	 * Emprunte le document
+	 * Si l'age de l'abonné est inférieur à l'age requis pour ce DVD
+	 * Jette une EmpruntException
+	 * @throws EmpruntException
+	 */
 	@Override
 	public synchronized void emprunter(Abonne ab) throws EmpruntException {
 		if(ab.getAge() < this.ageMini)
@@ -29,15 +47,7 @@ public class DVD extends DocumentAbs {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "Document (DVD) n° " + super.numero() + ", titre : '" + super.getTitre() + "', âge minimum : "+this.ageMini + ", état du document ; ";
-		switch (this.getEtat().toString()) {
-		case ("Reservé"):
-			s += "Reservé\n";
-		case ("Emprunté"):
-			s += "Emprunté\n";
-		case ("Disponible"):
-			s += "Disponible\n";
-		}
+		s += "Document n° " + numero() + ", titre : '" + getTitre() + "', état du document = " + getEtat().toString() + "\n";
 		return s;
 	}
 

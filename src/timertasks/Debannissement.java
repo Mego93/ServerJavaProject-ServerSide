@@ -1,3 +1,9 @@
+/**
+ * Classe ayant pour rôle de "libérer" l'utilisateur
+ * au bout d'un délai donné
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.0
+ */
 package timertasks;
 
 import java.util.Timer;
