@@ -57,6 +57,10 @@ public class ServiceReservation implements Runnable {
 							+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
 
 				} catch (EmpruntException e) {
+					out.println("Document déjà reservé, voulez vous recevoir un mail de rappel ? (O/N)");
+					String repMail = in.readLine();
+					if (repMail.equals("O"))
+						Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc), bibliothèque.getAbonnés().get(noAbo));
 					reponse = e.toString();
 				}
 

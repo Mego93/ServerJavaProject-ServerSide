@@ -1,8 +1,5 @@
-/serveur/
-/services/
-/timertasks/
-/exception/
-/etats/
 /documents/
-/bibliothèque/
 /appli/
+/bibliothèque/
+/services/
+/etats/

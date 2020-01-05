@@ -10,11 +10,12 @@ import java.util.HashMap;
 public class Bibliothèque {
 	private static HashMap<Integer,Document> biblio;
 	private static HashMap<Integer, Abonne> abonnés;
-	
+	private static HashMap<Document, Abonne> listeAttente;
 
 	public Bibliothèque() {
 		Bibliothèque.biblio = new HashMap<Integer, Document>();
 		Bibliothèque.abonnés = new HashMap<Integer, Abonne>();
+		Bibliothèque.listeAttente = new HashMap<Document,Abonne>();
 	}
 
 	public HashMap<Integer, Document> getBiblio() {
@@ -25,6 +26,10 @@ public class Bibliothèque {
 		return abonnés;
 	}
 	
+	public static HashMap<Document, Abonne> getListeAttente() {
+		return listeAttente;
+	}
+
 	public String toStringAbonnés() {
 		StringBuilder sb = new StringBuilder();	
 		for(int i = 1 ; i<abonnés.size();i++) {

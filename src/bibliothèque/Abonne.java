@@ -9,15 +9,22 @@ import exception.AbonnePuniException;
 
 public class Abonne {
 	private int numero;
+	private String email;
 	private String nom;
 	private int age;
 	private boolean estPuni;
 	
-	public Abonne(int numero, String nom,int age) {
+	public Abonne(int numero, String nom,int age,String email) {
 		this.numero = numero;
 		this.nom = nom;
 		this.age = age;
 		this.estPuni = false;
+		this.email = email;
+	}
+
+
+	public String getEmail() {
+		return email;
 	}
 
 
@@ -62,13 +69,5 @@ public class Abonne {
 		this.estPuni= false;
 		
 	}
-
-	
-
-
-	
-	
-	
-
 	
 }

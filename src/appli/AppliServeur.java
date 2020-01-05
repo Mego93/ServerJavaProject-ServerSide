@@ -30,9 +30,9 @@ public class AppliServeur {
 			Document d1 = new DVD(5,"Les coulisses de Patrick Balkany",b, 16);
 			Document d2 = new DVD(6,"Dora et Chipeur",b, 12);
 			
-			Abonne a1 = new Abonne(1, "Thierry", 18);
-			Abonne a2 = new Abonne(2, "Brette",40);
-			Abonne a3 = new Abonne(3, "Ishan",3);
+			Abonne a1 = new Abonne(1, "Thierry", 18,"faa@gmail.com");
+			Abonne a2 = new Abonne(2, "Brette",40,"d@gmail.com");
+			Abonne a3 = new Abonne(3, "Ishan",3,"p@gmail.com");
 			
 			b.getAbonnés().put(a1.getNumero(),a1);
 			b.getAbonnés().put(a2.getNumero(),a2);

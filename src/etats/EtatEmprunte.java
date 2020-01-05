@@ -6,9 +6,13 @@
 package etats;
 
 import java.util.Date;
+import java.util.Map.Entry;
 import java.util.Timer;
 
 import bibliothèque.Abonne;
+import bibliothèque.Bibliothèque;
+import bibliothèque.Document;
+import bibliothèque.Mail;
 import documents.DocumentAbs;
 import documents.Etat;
 import exception.AbonnePuniException;
@@ -22,6 +26,7 @@ public class EtatEmprunte implements Etat {
 	private Abonne aboPossession;
 	private DocumentAbs docPossession;
 	private Date dateEmprunt;
+
 
 	public EtatEmprunte(Abonne aboPossession, DocumentAbs docPossession, Date dateEmprunt) {
 		this.aboPossession = aboPossession;
@@ -74,6 +79,9 @@ public class EtatEmprunte implements Etat {
 				time.schedule(new Debannissement(this.aboPossession, time), DELAI_DEBANNISSEMENT);
 			}
 		}
+		docPossession.getBibliothèque();
+		for(Entry<Document, Abonne> a : Bibliothèque.getListeAttente().entrySet())
+			Mail.sendMail(a.getValue(), docPossession);
 		docPossession.setEtat(new EtatDisponible(docPossession));
 	}
 

@@ -67,6 +67,7 @@ public abstract class DocumentAbs implements Document {
 		return bibliothèque;
 	}
 
+
 	@Override
 	public String toString() {
 		String s = "";
