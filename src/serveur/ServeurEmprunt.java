@@ -1,3 +1,8 @@
+/**
+ * Classe permettant le lancement d'un serveur d'emprunt
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.1
+ */
 package serveur;
 
 import java.io.*;
@@ -12,6 +17,7 @@ public class ServeurEmprunt implements Runnable {
 
 	private ServerSocket ServerSocketEmprunt;
 	private static Bibliothèque bibliothèque;
+	
 	/**
 	 * Crée un serveur TCP pour le service Reservation
 	 * @throws IOException

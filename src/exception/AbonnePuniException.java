@@ -1,11 +1,11 @@
 /**
- * Classe d'exception d'emprunt
+ * Classe d'exception d'un abonné puni
  * @author VO Thierry & VYAS Ishan
  * @version 1.0
  */
 package exception;
 
-public class EmpruntException extends Exception {
+public class AbonnePuniException extends Exception {
 	/**
 	 * 
 	 */
@@ -14,7 +14,7 @@ public class EmpruntException extends Exception {
 	private String string;
 
 
-	public EmpruntException(String string) {
+	public AbonnePuniException(String string) {
 		this.string = string;
 	}
 	

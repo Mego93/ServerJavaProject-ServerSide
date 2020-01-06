@@ -1,3 +1,8 @@
+/**
+ * Classe d'application du serveur
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.5
+ */
 package appli;
 
 import java.io.IOException;
@@ -5,6 +10,7 @@ import java.io.IOException;
 import bibliothèque.Abonne;
 import bibliothèque.Bibliothèque;
 import bibliothèque.Document;
+import documents.DVD;
 import documents.Livre;
 import serveur.ServeurEmprunt;
 import serveur.ServeurReservation;
@@ -21,9 +27,12 @@ public class AppliServeur {
 			Document l3 = new Livre(3,"Pourquoi les gens ?",b);
 			Document l4 = new Livre(4,"Popo, son histoire",b);
 			
-			Abonne a1 = new Abonne(1, "Thierry");
-			Abonne a2 = new Abonne(2, "Brette");
-			Abonne a3 = new Abonne(3, "Ishan");
+			Document d1 = new DVD(5,"Les coulisses de Patrick Balkany",b, 16);
+			Document d2 = new DVD(6,"Dora et Chipeur",b, 12);
+			
+			Abonne a1 = new Abonne(1, "Thierry", 18,"faa@gmail.com");
+			Abonne a2 = new Abonne(2, "Brette",40,"d@gmail.com");
+			Abonne a3 = new Abonne(3, "Ishan",3,"p@gmail.com");
 			
 			b.getAbonnés().put(a1.getNumero(),a1);
 			b.getAbonnés().put(a2.getNumero(),a2);
@@ -33,6 +42,9 @@ public class AppliServeur {
 			b.getBiblio().put(l2.numero(),l2);
 			b.getBiblio().put(l3.numero(),l3);
 			b.getBiblio().put(l4.numero(),l4);
+			
+			b.getBiblio().put(d1.numero(),d1);
+			b.getBiblio().put(d2.numero(),d2);
 			
 			System.out.println("Serveur d'emprunt lancé");
 			new Thread(new ServeurEmprunt(b)).start();

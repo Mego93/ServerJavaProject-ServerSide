@@ -1,3 +1,9 @@
+/**
+ * Classe du livre
+ * Hérite de DocumentAbs
+ * @author VO Thierry & VYAS Ishan
+ * @version 1.5
+ */
 package documents;
 
 import bibliothèque.Bibliothèque;

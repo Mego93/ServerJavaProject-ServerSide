@@ -1,3 +1,8 @@
+/**
+ * Classe ayant pour service retour
+ * @author VO Thierry & VYAS Ishan
+ * @version 3.0
+ */
 package services;
 
 import java.io.BufferedReader;
@@ -24,9 +29,9 @@ public class ServiceRetour implements Runnable {
 		try {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+			PrintWriter out = new PrintWriter(client.getOutputStream(), true);		
 
-			// Ajouter try catch
+			// Demande au client l'instruction proposée
 			out.println("Le numéro de document à retourner :");
 			int noDoc = Integer.parseInt(in.readLine());
 
@@ -36,7 +41,7 @@ public class ServiceRetour implements Runnable {
 			if (verification)
 				try {
 					bibliothèque.getBiblio().get(noDoc).retour();
-					reponse = "Retour du document " + noDoc + "réussi, il est de nouveau disponible à la bibliothèque";
+					reponse = "Retour du document " + noDoc + " réussi, il est de nouveau disponible à la bibliothèque";
 
 				} catch (RetourException e) {
 					reponse = e.toString();
@@ -52,10 +57,16 @@ public class ServiceRetour implements Runnable {
 		} catch (IOException e2) {}
 	}
 
+	/**
+	 * Ferme le client
+	 */
 	protected void finalize() throws Throwable {
 		client.close();
 	}
 
+	/**
+	 * Crée un thread
+	 */
 	public void lancer() {
 		new Thread(this).start();
 

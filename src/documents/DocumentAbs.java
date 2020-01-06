@@ -1,6 +1,9 @@
+/**
+ * Classe abstraite des documents
+ * @author VO Thierry & VYAS Ishan
+ * @version 2.0
+ */
 package documents;
-
-import java.util.Timer;
 
 import bibliothèque.Abonne;
 import bibliothèque.Bibliothèque;
@@ -21,18 +24,21 @@ public abstract class DocumentAbs implements Document {
 		this.bibliothèque = bibliothèque;
 		this.etatDoc = new EtatDisponible(this);
 	}
+	
 
 	@Override
 	public int numero() {
 		return numero;
 	}
-
+	
+	/*
+	 * On délègue les rôles de réservations, emprunts
+	 * et de retour à l'attribut Etat (State)
+	 */
+	
 	@Override
 	public synchronized void reserver(Abonne ab) throws EmpruntException {
 		etatDoc.reserver(ab);
-		Timer time = new Timer();
-		time.schedule(new DocumentAttente(this, time), 20000);
-
 	}
 
 	@Override
@@ -56,9 +62,17 @@ public abstract class DocumentAbs implements Document {
 	public String getTitre() {
 		return titre;
 	}
-
+	
 	public Bibliothèque getBibliothèque() {
 		return bibliothèque;
+	}
+
+
+	@Override
+	public String toString() {
+		String s = "";
+		s += "Document n° " + numero + ", titre : '" + titre + "', état du document = " + etatDoc.toString() + "\n";
+		return s;
 	}
 
 }
