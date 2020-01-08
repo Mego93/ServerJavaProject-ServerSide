@@ -1,9 +1,12 @@
 /**
  * Classe de l'abonné
  * @author VO Thierry & VYAS Ishan
- * @version 2.0
+ * @version 2.1
  */
 package bibliothèque;
+
+import java.time.LocalDate;
+import java.time.Period;
 
 import exception.AbonnePuniException;
 
@@ -11,13 +14,13 @@ public class Abonne {
 	private int numero;
 	private String email;
 	private String nom;
-	private int age;
+	private LocalDate dateNaissance;
 	private boolean estPuni;
 	
-	public Abonne(int numero, String nom,int age,String email) {
+	public Abonne(int numero, String nom,String dateNaissance,String email) {
 		this.numero = numero;
 		this.nom = nom;
-		this.age = age;
+		this.dateNaissance = LocalDate.parse(dateNaissance);
 		this.estPuni = false;
 		this.email = email;
 	}
@@ -38,7 +41,8 @@ public class Abonne {
 
 
 	public int getAge() {
-		return age;
+		LocalDate today = LocalDate.now();       
+		return Period.between(this.dateNaissance,today).getYears();
 	}
 	
 	public boolean isPuni() {

@@ -6,6 +6,7 @@
 package bibliothèque;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class Bibliothèque {
 	private static HashMap<Integer,Document> biblio;
@@ -41,9 +42,8 @@ public class Bibliothèque {
 	
 	public String toStringDocs() {
 		StringBuilder sb = new StringBuilder();	
-		for(int i = 1 ; i<biblio.size();i++) {
-			sb.append(biblio.get(i).toString());
-			sb.append("\n");
+		for(Entry<Integer, Document> document : Bibliothèque.biblio.entrySet()) {
+			sb.append(document.getValue().toString());
 		}
 		return sb.toString();
 	}

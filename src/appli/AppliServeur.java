@@ -1,7 +1,7 @@
 /**
  * Classe d'application du serveur
  * @author VO Thierry & VYAS Ishan
- * @version 1.5
+ * @version 1.7
  */
 package appli;
 
@@ -23,16 +23,16 @@ public class AppliServeur {
 			Bibliothèque b = new Bibliothèque();
 			
 			Document l1 = new Livre(1,"Regret et chagrin",b);
-			Document l2 = new Livre(2,"42",b);
+			Document l2 = new Livre(2,"Faisons Des Projets !",b);
 			Document l3 = new Livre(3,"Pourquoi les gens ?",b);
 			Document l4 = new Livre(4,"Popo, son histoire",b);
 			
-			Document d1 = new DVD(5,"Les coulisses de Patrick Balkany",b, 16);
-			Document d2 = new DVD(6,"Dora et Chipeur",b, 12);
+			Document d1 = new DVD(5,"Les coulisses de Patrick Balkany",b, 18);
+			Document d2 = new DVD(6,"Superman Avec Les OVNIS Pouvant Etrangler",b, 12);
 			
-			Abonne a1 = new Abonne(1, "Thierry", 18,"faa@gmail.com");
-			Abonne a2 = new Abonne(2, "Brette",40,"d@gmail.com");
-			Abonne a3 = new Abonne(3, "Ishan",3,"p@gmail.com");
+			Abonne a1 = new Abonne(1, "Thierry", "2000-12-12","f@gmail.com");
+			Abonne a2 = new Abonne(2, "Papi","1972-12-03","d@gmail.com");
+			Abonne a3 = new Abonne(3, "Ishan","2015-03-07","p@gmail.com");
 			
 			b.getAbonnés().put(a1.getNumero(),a1);
 			b.getAbonnés().put(a2.getNumero(),a2);

@@ -33,7 +33,7 @@ public class ServiceEmprunt implements Runnable {
 		try {
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
+			out.print(bibliothèque.toStringDocs());
 			// Demande au client les instructions proposées
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
