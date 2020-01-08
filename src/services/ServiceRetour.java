@@ -23,7 +23,14 @@ public class ServiceRetour implements Runnable {
 		client = socket;
 		ServiceRetour.bibliothèque = bibliothèque;
 	}
-
+	
+	/*
+	 * On encode les messages ici vu que la communication
+	 * serveur/client par message s'arrete lorsqu'un caractère de fin
+	 * de ligne apparait (ici \n), les \n sont encodés en #n et sont
+	 * décodés en \n lors de l'affichage au client
+	 */
+	
 	@Override
 	public void run() {
 		String reponse = null;
@@ -35,13 +42,16 @@ public class ServiceRetour implements Runnable {
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
 				if (affichageBiblio)
-					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + "\n" + bibliothèque.toStringDocs()));
+					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + bibliothèque.toStringDocs()));
 				affichageBiblio = false;
 				// Demande au client l'instruction proposée
 				out.println("Le numéro de document à retourner :");
 				int noDoc = Integer.parseInt(in.readLine());
+				
 				System.out.println("Requète pour le document n°" + noDoc + " pour un retour (IP:"
 						+ this.client.getInetAddress() + ")");
+				
+				// Si le numéro de document est dans la bibliothèque
 				boolean verification = bibliothèque.getBiblio().containsKey(noDoc);
 				if (verification)
 					try {
@@ -55,6 +65,7 @@ public class ServiceRetour implements Runnable {
 				else {
 					reponse = Decodage.encoder("Le document n'existe pas. \n");
 				}
+				
 				System.out.println(Decodage.decoder(reponse));
 				out.println(reponse + "Voulez vous arrêter ? ('O')");
 				String repArret = in.readLine();
@@ -80,7 +91,7 @@ public class ServiceRetour implements Runnable {
 	}
 
 	/**
-	 * Crée un thread
+	 * Crée un thread et le lance
 	 */
 	public void lancer() {
 		new Thread(this).start();

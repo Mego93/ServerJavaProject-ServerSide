@@ -19,7 +19,12 @@ import javax.mail.internet.MimeMessage;
 public class Mail {
 
     private static final String SMTP_SERVER = "127.0.0.1";
-
+    /**
+     * Méthode d'envoi d'un mail à un client
+     * Notammant pour les rappels lorsqu'un document est disponible
+     * @param client
+     * @param document
+     */
     public static void sendMail(Abonne client, Document document) {
 
         String source = "biblioVYOS@boss.fr";

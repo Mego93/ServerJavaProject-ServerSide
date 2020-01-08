@@ -24,9 +24,13 @@ public class ServiceEmprunt implements Runnable {
 		ServiceEmprunt.bibliothèque = bibliothèque;
 	}
 
-	/**
-	 * Lance la portion de code du thread
+	/*
+	 * On encode les messages ici vu que la communication
+	 * serveur/client par message s'arrete lorsqu'un caractère de fin
+	 * de ligne apparait (ici \n), les \n sont encodés en #n et sont
+	 * décodés en \n lors de l'affichage au client
 	 */
+	
 	@Override
 	public void run() {
 		String reponse = null;
@@ -38,7 +42,7 @@ public class ServiceEmprunt implements Runnable {
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
 				if (affichageBiblio)
-					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + "\n" + bibliothèque.toStringDocs()));
+					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + bibliothèque.toStringDocs()));
 				affichageBiblio = false;
 				// Demande au client les instructions proposées
 				out.println("Votre numéro d'abonné : ");
@@ -48,21 +52,22 @@ public class ServiceEmprunt implements Runnable {
 
 				System.out.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc
 						+ " pour un emprunt (IP:" + this.client.getInetAddress() + ")");
+				
+				// Si le numéro d'abonné est dans la bibliothèque
 				boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
+				// Si le numéro de document est dans la bibliothèque
 				boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
-				boolean verification3 = Bibliothèque.getListeAttente().containsKey(noAbo);
+				
 				if (!verification) {
 					reponse = "Aucun abonné ne porte ce numéro";
 				} else if (!verification2) {
 					reponse = "Aucun document ne porte ce numéro";
-				} else if (verification3) {
-					reponse = "Vous voulez reserver un document que vous avez déjà reservé";
 				} else {
 
 					try {
 						bibliothèque.getBiblio().get(noDoc).emprunter(bibliothèque.getAbonnés().get(noAbo));
 						reponse = Decodage.encoder("Emprunt du document " + noDoc + " par l'abonné " + noAbo
-								+ " réussie, il n'est plus disponible à la bibliothèque.\n");
+								+ " réussie, il n'est plus disponible à la bibliothèque.\n");	
 					} catch (EmpruntException e) {
 						System.out.println("Le document est déjà emprunté, envoi d'une proposition de mail");
 						out.println(
@@ -104,7 +109,7 @@ public class ServiceEmprunt implements Runnable {
 	}
 
 	/**
-	 * Crée un thread
+	 * Crée un thread et le lance
 	 */
 	public void lancer() {
 		new Thread(this).start();
