@@ -39,7 +39,6 @@ public class Abonne {
 		return nom;
 	}
 
-
 	public int getAge() {
 		LocalDate today = LocalDate.now();       
 		return Period.between(this.dateNaissance,today).getYears();

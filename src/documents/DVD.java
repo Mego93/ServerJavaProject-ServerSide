@@ -13,9 +13,9 @@ import exception.EmpruntException;
 public class DVD extends DocumentAbs {
 	private int ageMini;
 	
-	public DVD(int numero, String titre, Bibliothèque bibliothèque,int ageMini) {
+	public DVD(int numero, String titre, Bibliothèque bibliothèque,AgeLimite ageMini) {
 		super(numero, titre, bibliothèque);
-		this.ageMini = ageMini;
+		this.ageMini = ageMini.getAgeMax();
 	}
 	
 	/**
