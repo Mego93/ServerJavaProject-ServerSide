@@ -22,7 +22,7 @@ public class Mail {
 
     public static void sendMail(Abonne client, Document document) {
 
-        String source = "biblioVo@boss.fr";
+        String source = "biblioVYOS@boss.fr";
         String destinataire = client.getEmail();
 
         String objetEmail = "Client n°" + client.getNumero() + ": Document " + document.numero() + " disponible";

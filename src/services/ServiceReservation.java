@@ -23,80 +23,78 @@ public class ServiceReservation implements Runnable {
 		client = socket;
 		ServiceReservation.bibliothèque = bibliothèque;
 	}
-	
+
 	/**
 	 * Lance la portion de code du thread
 	 */
 	@Override
 	public void run() {
 		String reponse = null;
-		try {
+		boolean affichageBiblio = true;
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-			out.print(Decodage.encoder(bibliothèque.toStringAbonnés()+"\n"+bibliothèque.toStringDocs()));
-			// Demande au client les instructions proposées
-			out.println("Votre numéro d'abonné : ");
-			int noAbo = Integer.parseInt(in.readLine());
-			out.println("Le numéro de document à emprunter :");
-			int noDoc = Integer.parseInt(in.readLine());
+		do {
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
-			System.out.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc
-					+ " pour une réservation (IP:" + this.client.getInetAddress() + ")");
-			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
-			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
-			boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
-			if (!verification) {
-				reponse = "Aucun abonné ne porte ce numéro";
-			System.out.println(reponse);
-			out.println(reponse);
+				if (affichageBiblio)
+					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + "\n" + bibliothèque.toStringDocs()));
+				affichageBiblio = false;
+				// Demande au client les instructions proposées
+				out.println("Votre numéro d'abonné : ");
+				int noAbo = Integer.parseInt(in.readLine());
+				out.println("Le numéro de document à emprunter :");
+				int noDoc = Integer.parseInt(in.readLine());
 
-			}
-			else if (!verification2) {
-				reponse = "Aucun document ne porte ce numéro";
-				System.out.println(reponse);
-				out.println(reponse);
+				System.out.println("Requète de l'abonné n°" + noAbo + " pour le document n°" + noDoc
+						+ " pour une réservation (IP:" + this.client.getInetAddress() + ")");
+				boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
+				boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
+				boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
+				if (!verification) {
+					reponse = "Aucun abonné ne porte ce numéro";
+				} else if (!verification2) {
+					reponse = "Aucun document ne porte ce numéro";
+				} else if (verification3) {
+					reponse = "Vous voulez reserver un document que vous avez déjà reservé";
+				} else {
 
-			} else if (verification3) {
-				reponse = "Vous voulez reserver un document que vous avez déjà reservé";
-				System.out.println(reponse);
-				out.println(reponse);
-			}
-
-			else {
-
-				try {
-					bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
-					reponse = Decodage.encoder("Réservation du document " + noDoc + " par l'abonné " + noAbo
-							+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné.\nFin du service, tapez un caractère pour quitter");
-
-					System.out.println("Réservation du document " + noDoc + " par l'abonné " + noAbo + " réussie, l'abonné a 2 heures pour emprunter le document ou il sera retourné.");
-					out.println(reponse);
-				} catch (EmpruntException e) {
-					System.out.println("Le document est déjà reservé, envoi d'une proposition de mail");
-					out.println("Document déjà reservé, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
-					String repMail = in.readLine();
-					if (repMail.equals("O")) {
-						Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc), bibliothèque.getAbonnés().get(noAbo));
-						out.println("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + ", fin du service de réservation (tapez un caractère pour quitter)");
-						client.close();
+					try {
+						bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
+						reponse = Decodage.encoder("Réservation du document " + noDoc + " par l'abonné " + noAbo
+								+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné. \n");
+					} catch (EmpruntException e) {
+						System.out.println("Le document est déjà reservé, envoi d'une proposition de mail");
+						out.println(
+								"Document déjà reservé, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
+						String repMail = in.readLine();
+						if (repMail.equals("O")) {
+							Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc),
+									bibliothèque.getAbonnés().get(noAbo));
+							reponse = Decodage
+									.encoder("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + "\n");
+						} else {
+							reponse = Decodage.encoder("Mail non envoyé \n");
+						}
 					}
-					else {
-						out.println("Mail non envoyé, fin du service de réservation (tapez un caractère pour quitter)");
-						client.close();
-					}
+
 				}
+				System.out.println(Decodage.decoder(reponse));
+				out.println(reponse + "Voulez vous arrêter ? ('O')");
+				String repArret = in.readLine();
+				if (repArret.equals("O"))
+					break;
 
+			} catch (IOException e) {
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
-
-
-		}
-		catch (IOException e) {}
-		catch(NumberFormatException e) {}
+		} while (true);
 		try {
 			client.close();
 		} catch (IOException e2) {
 		}
+
 	}
 
 	/**
@@ -113,5 +111,5 @@ public class ServiceReservation implements Runnable {
 		new Thread(this).start();
 
 	}
-	
+
 }

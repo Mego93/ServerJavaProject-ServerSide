@@ -27,39 +27,45 @@ public class ServiceRetour implements Runnable {
 	@Override
 	public void run() {
 		String reponse = null;
-		try {
+		boolean affichageBiblio = true;
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-			out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + "\n" + bibliothèque.toStringDocs()));
-			// Demande au client l'instruction proposée
-			out.println("Le numéro de document à retourner :");
-			int noDoc = Integer.parseInt(in.readLine());
-			System.out.println("Requète pour le document n°" + noDoc + " pour un retour (IP:"
-					+ this.client.getInetAddress() + ")");
-			boolean verification = bibliothèque.getBiblio().containsKey(noDoc);
-			if (verification)
-				try {
-					bibliothèque.getBiblio().get(noDoc).retour();
-					reponse = "Retour du document " + noDoc + " réussi, il est de nouveau disponible à la bibliothèque";
-					System.out.println("Retour du document " + noDoc
-							+ " réussie, il est de nouveau disponible à la bibliothèque.");
-					out.println(reponse);
-				} catch (RetourException e) {
-					System.out.println("Le document ne peut être retourné");
-					out.println("Fin du service de retour (tapez un caractère pour quitter)");
-					client.close();
+		do {
+			try {
+				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+
+				if (affichageBiblio)
+					out.print(Decodage.encoder(bibliothèque.toStringAbonnés() + "\n" + bibliothèque.toStringDocs()));
+				affichageBiblio = false;
+				// Demande au client l'instruction proposée
+				out.println("Le numéro de document à retourner :");
+				int noDoc = Integer.parseInt(in.readLine());
+				System.out.println("Requète pour le document n°" + noDoc + " pour un retour (IP:"
+						+ this.client.getInetAddress() + ")");
+				boolean verification = bibliothèque.getBiblio().containsKey(noDoc);
+				if (verification)
+					try {
+						bibliothèque.getBiblio().get(noDoc).retour();
+						reponse = Decodage.encoder("Retour du document n°" + noDoc
+								+ " réussi, il est de nouveau disponible à la bibliothèque. \n");
+					} catch (RetourException e) {
+						System.out.println("RetourException : Le document n°\"+ noDoc + \" ne peut être retourné.");
+						reponse = Decodage.encoder("Le document n°" + noDoc + " ne peut être retourné. \n");
+					}
+				else {
+					reponse = Decodage.encoder("Le document n'existe pas. \n");
 				}
-			else {
-				reponse = "Le document n'existe pas";
-				System.out.println(reponse);
-				out.println(reponse);
+				System.out.println(Decodage.decoder(reponse));
+				out.println(reponse + "Voulez vous arrêter ? ('O')");
+				String repArret = in.readLine();
+				if (repArret.equals("O"))
+					break;
 
+			} catch (IOException e) {
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
-
-		} catch (IOException e) {
-		} catch (NumberFormatException e) {
-		}
+		} while (true);
 		try {
 			client.close();
 		} catch (IOException e2) {
