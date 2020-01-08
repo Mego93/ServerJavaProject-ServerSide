@@ -33,17 +33,18 @@ public class Bibliothèque {
 
 	public String toStringAbonnés() {
 		StringBuilder sb = new StringBuilder();	
-		for(int i = 1 ; i<abonnés.size();i++) {
-			sb.append(abonnés.get(i).toString());
-			sb.append("\n");
+		sb.append("La bibliothèque VYOS a les abonnés suivants : \n");
+		for(Entry<Integer, Abonne> abonne : Bibliothèque.abonnés.entrySet()) {
+			sb.append(abonne.getValue().toString() + "\n");
 		}
 		return sb.toString();
 	}
 	
 	public String toStringDocs() {
 		StringBuilder sb = new StringBuilder();	
+		sb.append("La bibliothèque VYOS possède les documents suivants : \n");
 		for(Entry<Integer, Document> document : Bibliothèque.biblio.entrySet()) {
-			sb.append(document.getValue().toString());
+			sb.append(document.getValue().toString() + "\n");
 		}
 		return sb.toString();
 	}

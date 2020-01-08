@@ -1,5 +1,5 @@
 /**
- * Classe ayant pour service réservation
+  * Classe ayant pour service réservation
  * @author VO Thierry & VYAS Ishan
  * @version 3.5
  */
@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import bibliothèque.Bibliothèque;
+import codage.Decodage;
 import exception.EmpruntException;
 
 public class ServiceReservation implements Runnable {
@@ -33,7 +34,7 @@ public class ServiceReservation implements Runnable {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-			
+			out.print(Decodage.encoder(bibliothèque.toStringAbonnés()+"\n"+bibliothèque.toStringDocs()));
 			// Demande au client les instructions proposées
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
@@ -44,34 +45,54 @@ public class ServiceReservation implements Runnable {
 					+ " pour une réservation (IP:" + this.client.getInetAddress() + ")");
 			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
-			if (!verification)
+			boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
+			if (!verification) {
 				reponse = "Aucun abonné ne porte ce numéro";
-			else if (!verification2)
+			System.out.println(reponse);
+			out.println(reponse);
+
+			}
+			else if (!verification2) {
 				reponse = "Aucun document ne porte ce numéro";
+				System.out.println(reponse);
+				out.println(reponse);
+
+			} else if (verification3) {
+				reponse = "Vous voulez reserver un document que vous avez déjà reservé";
+				System.out.println(reponse);
+				out.println(reponse);
+			}
 
 			else {
 
 				try {
 					bibliothèque.getBiblio().get(noDoc).reserver(bibliothèque.getAbonnés().get(noAbo));
-					reponse = "Réservation du document " + noDoc + " par l'abonné " + noAbo
-							+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné";
+					reponse = Decodage.encoder("Réservation du document " + noDoc + " par l'abonné " + noAbo
+							+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné.\nFin du service, tapez un caractère pour quitter");
 
+					System.out.println("Réservation du document " + noDoc + " par l'abonné " + noAbo + " réussie, l'abonné a 2 heures pour emprunter le document ou il sera retourné.");
+					out.println(reponse);
 				} catch (EmpruntException e) {
-					out.println("Document déjà reservé, voulez vous recevoir un mail de rappel ? (O/N)");
+					System.out.println("Le document est déjà reservé, envoi d'une proposition de mail");
+					out.println("Document déjà reservé, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
 					String repMail = in.readLine();
-					if (repMail.equals("O"))
+					if (repMail.equals("O")) {
 						Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc), bibliothèque.getAbonnés().get(noAbo));
-					reponse = e.toString();
+						out.println("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + ", fin du service de réservation (tapez un caractère pour quitter)");
+						client.close();
+					}
+					else {
+						out.println("Mail non envoyé, fin du service de réservation (tapez un caractère pour quitter)");
+						client.close();
+					}
 				}
 
 			}
 
-			System.out.println(reponse);
-			out.println(reponse);
 
-		} catch (IOException e) {
 		}
-
+		catch (IOException e) {}
+		catch(NumberFormatException e) {}
 		try {
 			client.close();
 		} catch (IOException e2) {

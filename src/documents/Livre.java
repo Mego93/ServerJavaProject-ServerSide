@@ -13,5 +13,12 @@ public class Livre extends DocumentAbs {
 	public Livre(int numero, String titre, Bibliothèque bibliothèque) {
 		super(numero, titre, bibliothèque);
 	}
+	
+	@Override
+	public String toString() {
+		String s = "";
+		s+="Livre " + super.toString();
+		return s;
+	}
 
 }

@@ -17,6 +17,5 @@ public interface Etat {
 
 	void retour() throws RetourException;
 	
-	String toString();
 }
 

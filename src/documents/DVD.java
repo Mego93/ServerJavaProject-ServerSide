@@ -47,7 +47,7 @@ public class DVD extends DocumentAbs {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "Document n° " + numero() + ", titre : '" + getTitre() + "', état du document = " + getEtat().toString() + "\n";
+		s+="[ÂGE MINIMUM : " + ageMini + " ANS] DVD " + super.toString();
 		return s;
 	}
 

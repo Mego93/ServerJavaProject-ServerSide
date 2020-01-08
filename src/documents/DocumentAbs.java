@@ -71,7 +71,7 @@ public abstract class DocumentAbs implements Document {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "Document n° " + numero + ", titre : '" + titre + "', état du document = " + etatDoc.toString() + "\n";
+		s += "n° " + numero + ", titre : '" + titre + "', état du document = " + etatDoc.toString();
 		return s;
 	}
 

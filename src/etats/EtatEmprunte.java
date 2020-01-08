@@ -69,7 +69,8 @@ public class EtatEmprunte implements Etat {
 	@Override
 	public void retour() throws RetourException {
 		Date dateRetour = new Date();
-		if (dateRetour.getTime() - this.dateEmprunt.getTime() > DELAI_LIMITE) {
+		int nombreAleatoire = 1 + (int)(Math.random() * (10));
+		if (dateRetour.getTime() - this.dateEmprunt.getTime() > DELAI_LIMITE || nombreAleatoire < 1) {
 			try {
 				this.aboPossession.punission();
 			} catch (AbonnePuniException e) {

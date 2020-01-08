@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import bibliothèque.Bibliothèque;
-import bibliothèque.Mail;
+import codage.Decodage;
 import exception.EmpruntException;
 
 public class ServiceEmprunt implements Runnable {
@@ -33,7 +33,7 @@ public class ServiceEmprunt implements Runnable {
 		try {
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			out.print(bibliothèque.toStringDocs());
+			out.print(Decodage.encoder(bibliothèque.toStringAbonnés()+"\n"+bibliothèque.toStringDocs()));
 			// Demande au client les instructions proposées
 			out.println("Votre numéro d'abonné : ");
 			int noAbo = Integer.parseInt(in.readLine());
@@ -44,30 +44,54 @@ public class ServiceEmprunt implements Runnable {
 					+ " pour un emprunt (IP:" + this.client.getInetAddress() + ")");
 			boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 			boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
-			if (!verification)
+			boolean verification3 = Bibliothèque.getListeAttente().containsKey(noAbo);
+			if (!verification) {
 				reponse = "Aucun abonné ne porte ce numéro";
-			else if (!verification2)
+			System.out.println(reponse);
+			out.println(reponse);
+
+			}
+			else if (!verification2) {
 				reponse = "Aucun document ne porte ce numéro";
+				System.out.println(reponse);
+				out.println(reponse);
+
+			}else if (verification3) {
+			reponse = "Vous voulez reserver un document que vous avez déjà reservé";
+			System.out.println(reponse);
+			out.println(reponse);
+		}
 			else {
 				try {
 					bibliothèque.getBiblio().get(noDoc).emprunter(bibliothèque.getAbonnés().get(noAbo));
-					reponse = "Emprunt du document " + noDoc + " par l'abonné " + noAbo
-							+ " réussi, il n'est plus disponible à la bibliothèque";
+					reponse = Decodage.encoder("Emprunt du document " + noDoc + " par l'abonné " + noAbo
+							+ " réussie, il n'est plus disponible à la bibliothèque.\nFin du service d'emprunt , tapez un caractère pour quitter");
+
+					System.out.println("Emprunt du document " + noDoc + " par l'abonné " + noAbo + " réussie, il n'est plus disponible à la bibliothèque.");
+					out.println(reponse);
 
 				} catch (EmpruntException e) {
-					out.println("Document déjà emprunté, voulez vous recevoir un mail de rappel ? (O/N)");
+					System.out.println("Le document est déjà emprunté, envoi d'une proposition de mail");
+					out.println("Document déjà emprunté, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
 					String repMail = in.readLine();
-					if (repMail.equals("O"))
-						Mail.sendMail(bibliothèque.getAbonnés().get(noAbo), bibliothèque.getBiblio().get(noDoc));
-					reponse = e.toString();
+					if (repMail.equals("O")) {
+						Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc), bibliothèque.getAbonnés().get(noAbo));
+						out.println("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + ", fin du service d'emprunt (tapez un caractère pour quitter)");
+						client.close();
+					}
+					else {
+						out.println("Mail non envoyé, fin du service d'emprunt (tapez un caractère pour quitter)");
+						client.close();
+					}
 				}
 
 			}
 
-			System.out.println(reponse);
-			out.println(reponse);
 
 		} catch (IOException e) {
+		}
+		catch(NumberFormatException e) {
+			e.printStackTrace();
 		}
 		try {
 			client.close();

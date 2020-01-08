@@ -72,5 +72,20 @@ public class Abonne {
 		this.estPuni= false;
 		
 	}
+
+
+	@Override
+	public String toString() {
+		String s = "";
+		s+= "Abonné n° " + numero + ", email : " + email + ", nom : " + nom + ", date de naissance : " + dateNaissance
+				+ " (age : " + getAge() + " ans)" + ", sanctionné = ";
+		if(estPuni)
+			s+="Oui";
+		else
+			s+="Non";
+		return s;
+	}
+	
+	
 	
 }
