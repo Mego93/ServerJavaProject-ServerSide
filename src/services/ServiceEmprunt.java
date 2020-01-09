@@ -59,9 +59,9 @@ public class ServiceEmprunt implements Runnable {
 				boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
 				
 				if (!verification) {
-					reponse = "Aucun abonné ne porte ce numéro";
+					reponse = Decodage.encoder("Aucun abonné ne porte ce numéro. \n");
 				} else if (!verification2) {
-					reponse = "Aucun document ne porte ce numéro";
+					reponse = Decodage.encoder("Aucun document ne porte ce numéro. \n");
 				} else {
 
 					try {

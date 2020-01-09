@@ -63,7 +63,7 @@ public class ServiceRetour implements Runnable {
 						reponse = Decodage.encoder("Le document n°" + noDoc + " ne peut être retourné. \n");
 					}
 				else {
-					reponse = Decodage.encoder("Le document n'existe pas. \n");
+					reponse = Decodage.encoder("Aucun document ne porte ce numéro. \n");
 				}
 				
 				System.out.println(Decodage.decoder(reponse));

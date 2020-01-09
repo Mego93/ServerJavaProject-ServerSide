@@ -60,11 +60,11 @@ public class ServiceReservation implements Runnable {
 				// Si l'abonné n'a pas déjà réservé le même document
 				boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
 				if (!verification) {
-					reponse = "Aucun abonné ne porte ce numéro";
+					reponse = Decodage.encoder("Aucun abonné ne porte ce numéro. \n");
 				} else if (!verification2) {
-					reponse = "Aucun document ne porte ce numéro";
+					reponse = Decodage.encoder("Aucun document ne porte ce numéro. \n");
 				} else if (verification3) {
-					reponse = "Vous voulez reserver un document que vous avez déjà reservé";
+					reponse = Decodage.decoder("Vous voulez reserver un document que vous avez déjà reservé. \n");
 				} else {
 
 					try {
