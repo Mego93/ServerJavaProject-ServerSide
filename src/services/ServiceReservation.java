@@ -57,14 +57,11 @@ public class ServiceReservation implements Runnable {
 				boolean verification = bibliothèque.getAbonnés().containsKey(noAbo);
 				// Si le numéro de document est dans la bibliothèque
 				boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
-				// Si l'abonné n'a pas déjà réservé le même document
-				boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
+				
 				if (!verification) {
 					reponse = Decodage.encoder("Aucun abonné ne porte ce numéro. \n");
 				} else if (!verification2) {
 					reponse = Decodage.encoder("Aucun document ne porte ce numéro. \n");
-				} else if (verification3) {
-					reponse = Decodage.decoder("Vous voulez reserver un document que vous avez déjà reservé. \n");
 				} else {
 
 					try {
