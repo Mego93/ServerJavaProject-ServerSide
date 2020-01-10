@@ -29,12 +29,12 @@ public class AppliServeur {
 			Document l3 = new Livre(3,"Pourquoi les gens ?",b);
 			Document l4 = new Livre(4,"Popo, son histoire",b);
 			
-			Document d1 = new DVD(5,"Les coulisses de Patrick Balkany",b, AgeLimite.SEIZE);
-			Document d2 = new DVD(6,"Superman Avec Les OVNIS Pouvant Etrangler",b, AgeLimite.DOUZE);
+			Document d1 = new DVD(5,"RAMBO : Le retour au Vietnam",b, AgeLimite.SEIZE);
+			Document d2 = new DVD(6,"Galactik Football : Saison 10",b, AgeLimite.DOUZE);
 			
-			Abonne a1 = new Abonne(1, "Thierry", "2000-12-12","f@gmail.com");
-			Abonne a2 = new Abonne(2, "Papi","1972-12-03","d@gmail.com");
-			Abonne a3 = new Abonne(3, "Ishan","2015-03-07","p@gmail.com");
+			Abonne a1 = new Abonne(1, "Thierry", "2000-12-12","thierry123@gmail.com");
+			Abonne a2 = new Abonne(2, "Brette","1972-12-03","bretteDescartes@gmail.com");
+			Abonne a3 = new Abonne(3, "Ishan","1999-03-07","ishanvyas99@gmail.com");
 			
 			b.getAbonnés().put(a1.getNumero(),a1);
 			b.getAbonnés().put(a2.getNumero(),a2);

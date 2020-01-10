@@ -59,7 +59,7 @@ public class ServiceRetour implements Runnable {
 						reponse = Decodage.encoder("Retour du document n°" + noDoc
 								+ " réussi, il est de nouveau disponible à la bibliothèque. \n");
 					} catch (RetourException e) {
-						System.out.println("RetourException : Le document n°\"+ noDoc + \" ne peut être retourné.");
+						System.out.println("RetourException : Le document n°"+ noDoc + " ne peut être retourné.");
 						reponse = Decodage.encoder("Le document n°" + noDoc + " ne peut être retourné. \n");
 					}
 				else {

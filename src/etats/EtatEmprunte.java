@@ -58,19 +58,20 @@ public class EtatEmprunte implements Etat {
 
 	/**
 	 * Retourne le document
-	 * Si la différence entre la date d'emprunt et la date de retour est supérieur
-	 * au délai donné, l'abonné ayant retourné le document est banni
+	 * L'abonné est sanctionné s'il dépasse le délai donné pour le retour,
+	 * ou s'il rend un document abimé (ici un random)
 	 * Sinon jette une AbonnePuniException (catch)
 	 * Enfin, la méthode lance un TimerTask de "débannissement" avec un délai donné
-	 * et set l'état du Document en un nouvel objet EtatDisponible
+	 * set l'état du Document en un nouvel objet EtatDisponible et envoie un mail
+	 * de rappel à la liste d'attente du document
 	 * @param Un abonné
 	 * @throws RetourException
 	 */
 	@Override
 	public void retour() throws RetourException {
 		Date dateRetour = new Date();
-		int nombreAleatoire = 1 + (int)(Math.random() * (10));
-		if (dateRetour.getTime() - this.dateEmprunt.getTime() > DELAI_LIMITE || nombreAleatoire < 1) {
+		double probaSanction = Math.random();
+		if (dateRetour.getTime() - this.dateEmprunt.getTime() > DELAI_LIMITE || probaSanction < 0.05) {
 			try {
 				this.aboPossession.punission();
 			} catch (AbonnePuniException e) {

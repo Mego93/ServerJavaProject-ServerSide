@@ -69,17 +69,17 @@ public class ServiceEmprunt implements Runnable {
 						reponse = Decodage.encoder("Emprunt du document " + noDoc + " par l'abonné " + noAbo
 								+ " réussie, il n'est plus disponible à la bibliothèque.\n");	
 					} catch (EmpruntException e) {
-						System.out.println("Le document est déjà emprunté, envoi d'une proposition de mail");
+						System.out.println("EmpruntException : Le document est déjà emprunté, envoi d'une proposition de mail");
 						out.println(
-								"Document déjà emprunté, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
+								"Document déjà reservé, souhaitez vous être inscrit à la liste d'attente de ce document ? ('O' sinon un autre caractère)");
 						String repMail = in.readLine();
 						if (repMail.equals("O")) {
 							Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc),
 									bibliothèque.getAbonnés().get(noAbo));
 							reponse = Decodage
-									.encoder("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + "\n");
-						} else {
-							reponse = Decodage.encoder("Mail non envoyé \n");
+									.encoder("Abonne n°"+ bibliothèque.getAbonnés().get(noAbo).getNumero()+" inscrit, vous recevrez un mail quand ce document sera à nouveau disponible !\n");
+							} else {
+							reponse = Decodage.encoder("Mail non envoyé.\n");
 						}
 					}
 

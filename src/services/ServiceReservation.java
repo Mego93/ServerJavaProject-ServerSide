@@ -58,13 +58,10 @@ public class ServiceReservation implements Runnable {
 				// Si le numéro de document est dans la bibliothèque
 				boolean verification2 = bibliothèque.getBiblio().containsKey(noDoc);
 				// Si l'abonné n'a pas déjà réservé le même document
-				boolean verification3 = Bibliothèque.getListeAttente().containsValue(noAbo);
 				if (!verification) {
 					reponse = "Aucun abonné ne porte ce numéro";
 				} else if (!verification2) {
 					reponse = "Aucun document ne porte ce numéro";
-				} else if (verification3) {
-					reponse = "Vous voulez reserver un document que vous avez déjà reservé";
 				} else {
 
 					try {
@@ -72,17 +69,17 @@ public class ServiceReservation implements Runnable {
 						reponse = Decodage.encoder("Réservation du document " + noDoc + " par l'abonné " + noAbo
 								+ " réussie, vous avez 2 heures pour l'emprunter ou il sera retourné. \n");
 					} catch (EmpruntException e) {
-						System.out.println("Le document est déjà reservé, envoi d'une proposition de mail");
+						System.out.println("EmpruntException : Le document est déjà reservé, envoi d'une proposition de mail");
 						out.println(
-								"Document déjà reservé, voulez vous recevoir un mail de rappel ? ('O' sinon un autre caractère)");
+								"Document déjà reservé, souhaitez vous être inscrit à la liste d'attente de ce document ? ('O' sinon un autre caractère)");
 						String repMail = in.readLine();
 						if (repMail.equals("O")) {
 							Bibliothèque.getListeAttente().put(bibliothèque.getBiblio().get(noDoc),
 									bibliothèque.getAbonnés().get(noAbo));
 							reponse = Decodage
-									.encoder("Mail envoyé à " + bibliothèque.getAbonnés().get(noAbo).getEmail() + "\n");
+									.encoder("Abonne n°"+ bibliothèque.getAbonnés().get(noAbo).getNumero()+" inscrit, vous recevrez un mail quand ce document sera à nouveau disponible !\n");
 						} else {
-							reponse = Decodage.encoder("Mail non envoyé \n");
+							reponse = Decodage.encoder("Mail non envoyé.\n");
 						}
 					}
 
@@ -117,7 +114,6 @@ public class ServiceReservation implements Runnable {
 	 */
 	public void lancer() {
 		new Thread(this).start();
-
 	}
 
 }
