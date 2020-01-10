@@ -42,7 +42,7 @@ public class Mail {
         Properties prop = System.getProperties();
         prop.put("mail.smtp.host", SMTP_SERVER);
         // Le port dépend de ce qu'on a choisi avec fakeSMTP
-        prop.put("mail.smtp.port", "3000");
+        prop.put("mail.smtp.port", "25");
 
         Session session = Session.getInstance(prop, null);
         Message msg = new MimeMessage(session);
